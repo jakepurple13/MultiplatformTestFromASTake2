@@ -22,6 +22,8 @@ kotlin {
     }*/
 
     ios()
+    iosX64()
+    iosArm64()
     iosSimulatorArm64()
 
     cocoapods {
@@ -36,6 +38,7 @@ kotlin {
     }
 
     sourceSets {
+        val ktorVersion = "2.2.1"
         val commonMain by getting {
             dependencies {
                 val composeVersion = "1.2.2"
@@ -45,7 +48,6 @@ kotlin {
                 api("org.jetbrains.compose.material:material-icons-extended:$composeVersion")
                 api("org.jetbrains.compose.material:material:$composeVersion")
                 //api(compose.material3)
-                val ktorVersion = "2.2.1"
                 api("io.ktor:ktor-client-core:$ktorVersion")
                 api("io.ktor:ktor-client-content-negotiation:$ktorVersion")
                 api("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
@@ -57,12 +59,19 @@ kotlin {
                 implementation(kotlin("test"))
             }
         }
-        val androidMain by getting
+        val androidMain by getting {
+            dependencies {
+                api("io.ktor:ktor-client-android:$ktorVersion")
+            }
+        }
         val androidTest by getting
         val iosX64Main by getting
         val iosArm64Main by getting
         val iosSimulatorArm64Main by getting
         val iosMain by getting {
+            dependencies {
+                api("io.ktor:ktor-client-darwin:$ktorVersion")
+            }
             dependsOn(commonMain)
             iosX64Main.dependsOn(this)
             iosArm64Main.dependsOn(this)
